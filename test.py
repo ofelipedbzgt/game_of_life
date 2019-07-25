@@ -4,15 +4,11 @@ import time
 
 alive = '#'
 dead = ' '
-x = 100
-y = 50
+x = 200
+y = 100
 size = x
 
 np.set_printoptions(linewidth=320)
-
-
-def arg_1():
-    pass
 
 
 def random_state(w, h):
@@ -29,7 +25,7 @@ def random_state(w, h):
 
 def render(board):
     line_count = 0
-    print('~' * 100 * 2)
+    # print('~' * x * 2)
     for line in board:
         for element in line:
             if element == 0:
@@ -41,7 +37,7 @@ def render(board):
             if line_count >= size:
                 print("")
                 line_count = 0
-    print('~' * 100 * 2)
+    # print('~' * x * 2)
 
 
 def dead_state(w, h):
@@ -49,15 +45,11 @@ def dead_state(w, h):
     return board
 
 
-def alive_state(w, h):
-    board = np.ones((w, h), dtype=int)
-    return board
-
-
 def next_board_state(board):
-    new_state = dead_state(x, y)
     rows = board.shape[0]
     cols = board.shape[1]
+    new_state = dead_state(rows, cols)
+    # new_state = dead_state(x, y)
     for i in range(0, rows - 1):
         for j in range(0, cols - 1):
             n_list = []
@@ -94,16 +86,30 @@ def next_board_state(board):
     return new_state
 
 
+def load_board_state(filepath):
+    with open(filepath, 'r') as f:
+        lines = [l.rstrip() for l in f.readlines()]
+
+    height = len(lines)
+    width = len(lines[0])
+    board = dead_state(height, width)
+
+    for b, line in enumerate(lines):
+        for m, char in enumerate(line):
+            board[b][m] = int(char)
+    return board
+
+
 def run_forever(initial_state):
     next_state = initial_state
     while True:
         render(next_state)
         next_state = next_board_state(next_state)
-        time.sleep(1)
+        time.sleep(0.05)
 
 
 if __name__ == "__main__":
     init_state = random_state(x, y)
-    # init_state = load_board_state('./toad.txt')
+    # init_state = load_board_state('./ggg.txt')
     run_forever(init_state)
 
