@@ -7,7 +7,7 @@ dead = ' '
 x = 100
 y = 50
 size = x
-interval = 1
+interval = 0.8
 
 np.set_printoptions(linewidth=320)
 
