@@ -4,10 +4,10 @@ import time
 
 alive = '#'
 dead = ' '
-x = 100
-y = 50
+x = 2
+y = 2
 size = x
-interval = 0.8
+interval = 1
 
 np.set_printoptions(linewidth=320)
 
@@ -51,20 +51,46 @@ def next_board_state(board):
     cols = board.shape[1]
     new_state = dead_state(rows, cols)
     # new_state = dead_state(x, y)
-    for i in range(0, rows - 1):
-        for j in range(0, cols - 1):
+    for i in range(0, rows):
+        # print(i, 'i')
+        for j in range(0, cols):
+            # print(j, 'j')
             n_list = []
             count_alive = 0
             # check all neighbours
-            n1 = board[i - 1, j - 1]
-            n2 = board[i, j - 1]
-            n3 = board[i + 1, j - 1]
-            n4 = board[i - 1, j]
+            try:
+                n1 = board[i - 1, j - 1]
+            except IndexError:
+                n1 = None
+            try:
+                n2 = board[i, j - 1]
+            except IndexError:
+                n2 = None
+            try:
+                n3 = board[i + 1, j - 1]
+            except IndexError:
+                n3 = None
+            try:
+                n4 = board[i - 1, j]
+            except IndexError:
+                n4 = None
             n = board[i, j]
-            n5 = board[i + 1, j]
-            n6 = board[i - 1, j + 1]
-            n7 = board[i, j + 1]
-            n8 = board[i + 1, j + 1]
+            try:
+                n5 = board[i + 1, j]
+            except IndexError:
+                n5 = None
+            try:
+                n6 = board[i - 1, j + 1]
+            except IndexError:
+                n6 = None
+            try:
+                n7 = board[i, j + 1]
+            except IndexError:
+                n7 = None
+            try:
+                n8 = board[i + 1, j + 1]
+            except IndexError:
+                n8 = None
             n_list.append(n1)
             n_list.append(n2)
             n_list.append(n3)
@@ -76,14 +102,21 @@ def next_board_state(board):
             for h in n_list:
                 if h == 1:
                     count_alive += 1
-            if n == 1 and count_alive <= 1:
+            # print(count_alive)
+            print(n_list)
+            print(count_alive)
+            if n == 1 and count_alive == 1 or count_alive == 0:
                 new_state[i, j] = 0
+                print('rule 1')
             elif n == 1 and count_alive == 2 or count_alive == 3:
                 new_state[i, j] = 1
+                print('rule 2')
             elif n == 1 and count_alive > 3:
                 new_state[i, j] = 0
+                print('rule 3')
             elif n == 0 and count_alive == 3:
                 new_state[i, j] = 1
+                print('rule 4')
     return new_state
 
 
@@ -110,7 +143,8 @@ def run_forever(initial_state):
 
 
 if __name__ == "__main__":
-    init_state = random_state(x, y)
+    # init_state = random_state(x, y)
     # init_state = load_board_state('./ggg.txt')
+    init_state = load_board_state('./test.txt')
     run_forever(init_state)
 
