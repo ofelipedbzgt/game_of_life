@@ -2,12 +2,24 @@ import numpy as np
 from random import randint
 import time
 
+toad = './toad.txt'
+ggg = './ggg.txt'
+test = './test.txt'
+
+filepath = ggg
+
+with open(filepath, 'r') as f:
+    lines = [l.rstrip() for l in f.readlines()]
+    x = len(lines[0])
+    y = len(lines)
+
 alive = '#'
 dead = ' '
-x = 2
-y = 2
+# seeds
+x_ = 100
+y_ = 100
 size = x
-interval = 1
+interval = 0.05
 
 np.set_printoptions(linewidth=320)
 
@@ -103,20 +115,20 @@ def next_board_state(board):
                 if h == 1:
                     count_alive += 1
             # print(count_alive)
-            print(n_list)
-            print(count_alive)
+            # print(n_list)
+            # print(count_alive)
             if n == 1 and count_alive == 1 or count_alive == 0:
                 new_state[i, j] = 0
-                print('rule 1')
+                # print('rule 1')
             elif n == 1 and count_alive == 2 or count_alive == 3:
                 new_state[i, j] = 1
-                print('rule 2')
+                # print('rule 2')
             elif n == 1 and count_alive > 3:
                 new_state[i, j] = 0
-                print('rule 3')
+                # print('rule 3')
             elif n == 0 and count_alive == 3:
                 new_state[i, j] = 1
-                print('rule 4')
+                # print('rule 4')
     return new_state
 
 
@@ -143,8 +155,7 @@ def run_forever(initial_state):
 
 
 if __name__ == "__main__":
-    # init_state = random_state(x, y)
-    # init_state = load_board_state('./ggg.txt')
-    init_state = load_board_state('./test.txt')
+    init_state = random_state(x, y)
+    # init_state = load_board_state(filepath)
     run_forever(init_state)
 
